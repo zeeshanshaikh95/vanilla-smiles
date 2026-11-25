@@ -1,0 +1,71 @@
+# Render blueprint — Vanilla Smiles (API + static storefront)
+#
+# Deploy: Render dashboard → New + → Blueprint → pick zeeshanshaikh95/vanilla-smiles.
+# Values marked `sync: false` are entered in the dashboard, never committed.
+#
+#   1. Create the blueprint (this file) → Render builds `vanilla-smiles-api`.
+#   2. Fill the `sync: false` values on the API service (MongoDB URI, admin
+#      credentials, CORS origin) and let Render generate JWT_SECRET.
+#   3. Copy the API URL (https://vanilla-smiles-api.onrender.com) into the static
+#      site's VITE_API_URL, then redeploy `vanilla-smiles-web`.
+#
+# Free tier note: Render sleeps a free web service after ~15 minutes idle; the
+# first request afterwards takes ~30s to wake. Catalogue reads continue to work.
+
+services:
+  - type: web
+    name: vanilla-smiles-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    # MONGOMS_DISABLE_POSTINSTALL avoids downloading a ~100 MB dev-only mongod
+    # during the build. --include=dev is required because Render builds with
+    # NODE_ENV=production, which would otherwise skip typescript/@types/node.
+    buildCommand: MONGOMS_DISABLE_POSTINSTALL=1 npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      # Creates the first admin + default settings on boot. Idempotent, and it
+      # never writes catalogue data.
+      - key: AUTO_SEED
+        value: true
+      - key: JWT_SECRET
+        generateValue: true
+      # MongoDB Atlas connection string — set in the dashboard.
+      - key: MONGODB_URI
+        sync: false
+      # The static site origin, plus local dev. Set after the site is created.
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PUBLIC_SITE_URL
+        sync: false
+      # First-admin bootstrap — set in the dashboard. First login forces a
+      # password change, so these are only ever used once.
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+
+  - type: web
+    name: vanilla-smiles-web
+    runtime: static
+    rootDir: .
+    buildCommand: npm ci --workspace client --include-workspace-root && npm run build --workspace client
+    staticPublishPath: ./client/dist
+    envVars:
+      # Full API origin including /api, e.g. https://vanilla-smiles-api.onrender.com/api
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_PUBLIC_SITE_URL
+        sync: false
+    routes:
+      # SPA deep links (/product/rubaab, /admin, …) fall back to index.html.
+      - type: rewrite
+        source: /*
+        destination: /index.html

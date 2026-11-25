@@ -1,0 +1,29 @@
+{
+  "name": "vanilla-smiles",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vanilla Smiles — dental & esthetic clinic site (React SPA + Express API + MongoDB) with WhatsApp booking and a protected admin panel",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "dev:db": "npm run dev:db -w server",
+    "dev:all": "concurrently -n db,server,client -c magenta,yellow,cyan \"npm run dev:db -w server\" \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client && npm run build -w server",
+    "typecheck": "npm run typecheck -w client && npm run typecheck -w server",
+    "seed": "npm run seed -w server",
+    "seed:reset": "npm run seed:reset -w server",
+    "demo:catalogue": "node scripts/build-demo-catalogue.mjs",
+    "demo:snapshot": "tsx scripts/demo-snapshot.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

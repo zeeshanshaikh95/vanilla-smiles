@@ -1,0 +1,236 @@
+/**
+ * The starter treatment catalogue for Vanilla Smiles.
+ *
+ * Shared by the database seed and the GitHub Pages preview snapshot so the two
+ * can never drift apart. No fees, claims or patient words are invented: every
+ * price stays null, which the site renders as "Fee quoted at consultation".
+ */
+
+export const categories = [
+  {
+    name: 'General Dentistry',
+    slug: 'general-dentistry',
+    description:
+      'Check-ups, cleaning, fillings and root canals — the everyday care that keeps a mouth out of trouble.',
+    image: '/images/dept-general.jpg',
+    displayOrder: 1,
+  },
+  {
+    name: 'Smile Design',
+    slug: 'smile-design',
+    description:
+      'Whitening, veneers and composite bonding, planned around your face rather than a template.',
+    image: '/images/dept-smile.jpg',
+    displayOrder: 2,
+  },
+  {
+    name: 'Orthodontics',
+    slug: 'orthodontics',
+    description:
+      'Clear aligners and ceramic braces for teenagers and adults, with a plan you can see from day one.',
+    image: '/images/dept-ortho.jpg',
+    displayOrder: 3,
+  },
+  {
+    name: "Kids' Dentistry",
+    slug: 'kids-dentistry',
+    description:
+      'First visits, fluoride and sealants — a tell–show–do approach so a check-up stops being frightening.',
+    image: '/images/dept-kids.jpg',
+    displayOrder: 4,
+  },
+];
+
+export const option = (name: string) => ({ name, price: null as number | null, stockStatus: 'in_stock' as const });
+
+export const treatments = [
+  {
+    name: 'Consultation & Check-up',
+    slug: 'consultation-check-up',
+    description:
+      'A full examination of teeth, gums and bite, with a written plan and costs if anything needs treatment. The starting point for every new patient — and the right appointment if it has simply been too long.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Visual examination · gum assessment · digital X-ray only if clinically needed',
+    care: 'Bring a list of medicines you take and any previous X-rays. Nothing else is required.',
+    colour: '30 minutes · single visit',
+    categorySlug: 'general-dentistry',
+    images: ['/images/t-checkup.jpg', '/images/clinic-interior.jpg'],
+    variants: [],
+    bestseller: true,
+    featured: true,
+    newArrival: false,
+    displayOrder: 1,
+  },
+  {
+    name: 'Scaling & Polishing',
+    slug: 'scaling-polishing',
+    description:
+      'Ultrasonic removal of plaque and tartar above and below the gum line, then a polish to lift surface staining. The single most useful appointment for gum health, and the one most people postpone.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Ultrasonic scaling · hand instrumentation where needed · polishing · gum advice',
+    care: 'Avoid very hot or cold food for a few hours. Mild sensitivity for a day or two is normal.',
+    colour: '45 minutes · single visit',
+    categorySlug: 'general-dentistry',
+    images: ['/images/t-cleaning.jpg'],
+    variants: [],
+    bestseller: true,
+    featured: true,
+    newArrival: false,
+    displayOrder: 2,
+  },
+  {
+    name: 'Tooth-Coloured Filling',
+    slug: 'tooth-coloured-filling',
+    description:
+      'Composite restoration for a cavity or a chipped edge, matched to the shade of the tooth so it disappears in daylight. Done under local anaesthetic, usually in one sitting.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Local anaesthetic · decay removal · layered composite · bite check and polish',
+    care: 'Avoid chewing on that side until the numbness has fully gone — usually two to three hours.',
+    colour: '45–60 minutes · single visit',
+    categorySlug: 'general-dentistry',
+    images: ['/images/t-filling.jpg'],
+    variants: [],
+    bestseller: false,
+    featured: true,
+    newArrival: false,
+    displayOrder: 3,
+  },
+  {
+    name: 'Root Canal Treatment',
+    slug: 'root-canal-treatment',
+    description:
+      'For a tooth that is infected or badly broken down. The nerve space is cleaned, shaped and sealed, then the tooth is restored — often the alternative to an extraction.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Diagnosis and X-ray · rotary cleaning and shaping · sealed with a restoration',
+    care: 'Expect mild tenderness for a few days. A crown may be advised afterwards to protect the tooth.',
+    colour: '1–2 visits · 60–90 minutes each',
+    categorySlug: 'general-dentistry',
+    images: ['/images/t-rootcanal.jpg'],
+    variants: [option('Single-rooted tooth'), option('Multi-rooted tooth')],
+    bestseller: false,
+    featured: false,
+    newArrival: false,
+    displayOrder: 4,
+  },
+  {
+    name: 'Teeth Whitening',
+    slug: 'teeth-whitening',
+    description:
+      'Professional whitening for stained or dulled enamel, using a custom-fitted tray so the gel reaches the tooth evenly and the gums stay protected. Shade change varies by person and by starting colour.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Shade assessment · custom tray · supervised gel application · follow-up shade check',
+    care: 'Avoid tea, coffee, red wine, turmeric and smoking for 48 hours after each session.',
+    colour: 'Single visit · review after 2 weeks',
+    categorySlug: 'smile-design',
+    images: ['/images/t-whitening.jpg'],
+    variants: [option('In-clinic session'), option('Take-home kit')],
+    bestseller: true,
+    featured: true,
+    newArrival: true,
+    displayOrder: 5,
+  },
+  {
+    name: 'Veneers & Smile Design',
+    slug: 'veneers-smile-design',
+    description:
+      'A planned change to the shape, shade and proportion of the front teeth — starting with a mock-up you can see before anything is permanent. Suited to chips, gaps and discolouration that whitening cannot fix.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Photographs and shade mapping · digital or wax mock-up · trial smile · bonding',
+    care: 'Avoid biting nails or opening packets with the front teeth. A night guard is advised if you clench.',
+    colour: '2–3 visits · plan depends on the number of teeth',
+    categorySlug: 'smile-design',
+    images: ['/images/t-veneers.jpg', '/images/hero-smile.jpg'],
+    variants: [],
+    bestseller: false,
+    featured: true,
+    newArrival: true,
+    displayOrder: 6,
+  },
+  {
+    name: 'Clear Aligners',
+    slug: 'clear-aligners',
+    description:
+      'Removable, nearly invisible trays that move teeth in planned stages. Suited to crowding, spacing and mild bite correction — assessed first with scans or impressions to confirm what is realistic.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Scans and treatment plan · aligner stages · scheduled reviews · retainers at the end',
+    care: 'Wear 20–22 hours a day. Remove for eating and drinking anything other than water; rinse the trays.',
+    colour: 'Review every 6–8 weeks',
+    categorySlug: 'orthodontics',
+    images: ['/images/hero-aligners.jpg', '/images/t-aligners.jpg'],
+    variants: [option('Limited alignment'), option('Full alignment')],
+    bestseller: true,
+    featured: true,
+    newArrival: false,
+    displayOrder: 7,
+  },
+  {
+    name: 'Ceramic Braces',
+    slug: 'ceramic-braces',
+    description:
+      'Fixed braces with tooth-coloured brackets for more complex movement than aligners can manage. Wires are adjusted at each review so the movement stays on plan.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Bonding appointment · ceramic brackets · wire adjustments · retention planning',
+    care: 'Avoid hard and sticky foods. Use the interdental brushes we give you — they are not optional.',
+    colour: 'Review every 4–6 weeks',
+    categorySlug: 'orthodontics',
+    images: ['/images/dept-ortho.jpg'],
+    variants: [option('Upper arch'), option('Upper and lower')],
+    bestseller: false,
+    featured: false,
+    newArrival: false,
+    displayOrder: 8,
+  },
+  {
+    name: "Child's First Visit",
+    slug: 'childs-first-visit',
+    description:
+      'A short, friendly introduction to the chair: counting teeth, showing the mirror, and a gentle examination. No treatment is forced — the goal of visit one is that visit two is easy.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Tell–show–do introduction · examination · fluoride varnish if appropriate · parent briefing',
+    care: 'Bring them fed and not overtired. A favourite toy is welcome.',
+    colour: '20–30 minutes',
+    categorySlug: 'kids-dentistry',
+    images: ['/images/hero-kids.jpg', '/images/dept-kids.jpg'],
+    variants: [],
+    bestseller: true,
+    featured: true,
+    newArrival: false,
+    displayOrder: 9,
+  },
+  {
+    name: 'Sealants & Fluoride',
+    slug: 'sealants-fluoride',
+    description:
+      'Preventive care for young molars: a thin coating over the grooves where decay starts, plus a fluoride varnish. Quick, painless, and far cheaper than treating what it prevents.',
+    price: null,
+    compareAtPrice: null,
+    fabric: 'Cleaning · sealant application · fluoride varnish · home-care demonstration',
+    care: 'No hard chewing for 24 hours on the treated teeth. Normal brushing resumes the same evening.',
+    colour: '30 minutes',
+    categorySlug: 'kids-dentistry',
+    images: ['/images/t-kids.jpg'],
+    variants: [],
+    bestseller: false,
+    featured: false,
+    newArrival: true,
+    displayOrder: 10,
+  },
+];
+
+export const gallery = [
+  { image: '/images/hero-care.jpg', caption: 'The treatment room', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 1 },
+  { image: '/images/hero-smile.jpg', caption: 'A finished smile', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 2 },
+  { image: '/images/clinic-reception.jpg', caption: 'Reception, Andheri West', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 3 },
+  { image: '/images/hero-aligners.jpg', caption: 'Aligner review', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 4 },
+  { image: '/images/t-whitening.jpg', caption: 'Whitening session', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 5 },
+  { image: '/images/hero-kids.jpg', caption: 'A first visit', externalUrl: 'https://www.instagram.com/vanillasmilesclinic/', displayOrder: 6 },
+];

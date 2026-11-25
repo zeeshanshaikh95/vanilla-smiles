@@ -1,0 +1,76 @@
+name: Deploy Vanilla Smiles to GitHub Pages
+
+# Builds the React client and publishes it to GitHub Pages.
+# The catalogue API is hosted separately — set the repository variable
+# VITE_API_URL (Settings → Secrets and variables → Actions → Variables) to the
+# deployed API origin, including /api. Without it the build falls back to the
+# development URL and the live site shows its "cannot reach the API" states.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'client/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        env:
+          MONGOMS_DISABLE_POSTINSTALL: '1'
+        run: npm ci --workspace client --include-workspace-root
+
+      - name: Build client
+        env:
+          # Project sites live at https://<owner>.github.io/<repo>/ — assets and
+          # the router basename both depend on this prefix.
+          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          # Pages has no server, so the build ships a catalogue snapshot until
+          # an API origin is configured. Set the repository variable
+          # VITE_DEMO_CATALOGUE to "true" (default here) or "false" once
+          # VITE_API_URL points at a deployed API.
+          VITE_DEMO_CATALOGUE: ${{ vars.VITE_DEMO_CATALOGUE || 'true' }}
+          VITE_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: npm run build --workspace client
+
+      # SPA deep links (/product/rubaab, /admin, …) resolve through 404.html.
+      - name: Add SPA fallback
+        run: cp client/dist/index.html client/dist/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: client/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
