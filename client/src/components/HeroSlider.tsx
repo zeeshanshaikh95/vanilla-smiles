@@ -369,7 +369,7 @@ export function HeroSlider() {
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-teal-900/70 via-teal-900/5 to-transparent" />
 
                   {/* Caption plate inside the frame */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 pl-16 sm:p-6">
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 sm:p-6">
                     <p className="text-[8px] font-semibold uppercase tracking-micro text-ivory/70">
                       {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
                     </p>
@@ -439,7 +439,7 @@ export function HeroSlider() {
 
             {/* Pearl + gold geometry */}
             <div
-              className="layer-3d absolute bottom-[2%] left-[-1%]"
+              className="layer-3d absolute bottom-[38%] -left-[7%]"
               style={{ transform: `${shift(50)} translateZ(225px)` }}
             >
               <div className="h-12 w-12 animate-float-slow rounded-full orb-pearl sm:h-16 sm:w-16" />
